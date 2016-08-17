@@ -1,5 +1,7 @@
 package centraldegames.componentes;
 
+import java.util.HashSet;
+
 /**<p>Classe que presenta um jogo</p>
  * <p>&copy; Copyright - Todos os direitos reservados</p>
  * @author Ricardo de Andrade Maia - 115211310
@@ -13,17 +15,35 @@ public class Jogo {
 	private double maxScore = 0;
 	private int quantVezesJogadas = 0;
 	private int quantVezesZerado = 0;
+	private HashSet<EstiloJogabilidade> jogabilidades;
 	
 	/**
 	 * @param nome nome do jogo
 	 * @param preco preco do jogo
+	 * @param jogabilidades estilos do jogo 
 	 * @author Ricardo Andrade
 	 * @since 11/08/16
 	 * @throws caso nome ou preco seja invalido
 	 */
-	public Jogo(String nome, double preco) throws Exception {
+	public Jogo(String nome, double preco, HashSet<EstiloJogabilidade> jogabilidades) throws Exception {
 		this.setNome(nome);
 		this.setPreco(preco);
+		this.jogabilidades = jogabilidades;
+	}
+	
+	/**
+	 * @param nome nome do jogo
+	 * @param preco preco do jogo
+	 * @param jogabilidade estilos do jogo 
+	 * @author Ricardo Andrade
+	 * @since 17/08/16
+	 * @throws caso nome ou preco seja invalido
+	 */
+	public Jogo(String nome, double preco, EstiloJogabilidade jogabilidade) throws Exception {
+		this.setNome(nome);
+		this.setPreco(preco);
+		this.jogabilidades = new HashSet<EstiloJogabilidade>();
+		this.jogabilidades.add(jogabilidade);
 	}
 	
 	/**<p>Registra uma partida, atualisando o Recorde do jogo e demais estatisticas</p>
@@ -105,5 +125,9 @@ public class Jogo {
 
 	public int getQuantVezesZerado() {
 		return quantVezesZerado;
+	}
+
+	public HashSet<EstiloJogabilidade> getJogabilidades() {
+		return jogabilidades;
 	}
 }

@@ -2,6 +2,8 @@ package centraldegames.componentes;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,10 +11,17 @@ import centraldegames.componentes.Jogo;
 
 public class TesteJogo {
 	private Jogo jogo;
+	private HashSet<EstiloJogabilidade> Jogabilidades;
 	
 	@Before
 	public void criaJogo() throws Exception {
-		this.jogo = new Jogo("Halo 5", 199.0);
+		this.Jogabilidades = new HashSet<EstiloJogabilidade>();
+		this.Jogabilidades.add(EstiloJogabilidade.ONLINE);
+		this.Jogabilidades.add(EstiloJogabilidade.OFFLINE);
+		this.Jogabilidades.add(EstiloJogabilidade.MULTIPLAYER);
+		this.Jogabilidades.add(EstiloJogabilidade.COMPETITIVO);
+		this.Jogabilidades.add(EstiloJogabilidade.COOPERATIVO);
+		this.jogo = new Jogo("Halo 5", 199.0, this.Jogabilidades);
 	}
 	
 	@Test
@@ -20,28 +29,30 @@ public class TesteJogo {
 		//testanto se o construtor criou o objeto de maneira correta;
 		assertEquals("Nome do jogo esta errado","Halo 5", this.jogo.getNome());
 		assertEquals("Preco do jogo esta errado", 199.0,this.jogo.getPreco(),0);
+		assertTrue(this.Jogabilidades.equals(this.jogo.getJogabilidades()));
 		
 		//testando caso limite
-		jogo = new Jogo("Minecraft", 0);
-		assertEquals("Preco de Minecraft deveria ser 0", 0, this.jogo.getPreco(), 0);
+		Jogo jogo2 = new Jogo("Minecraft", 0, EstiloJogabilidade.OFFLINE);
+		assertEquals("Preco de Minecraft deveria ser 0", 0, jogo2.getPreco(), 0);
+		assertTrue(jogo2.getJogabilidades().contains(EstiloJogabilidade.OFFLINE) && jogo2.getJogabilidades().size() == 1);
 		
 		//testanto excecoes 
 		try {
-			jogo = new Jogo("", 199.0);
+			jogo = new Jogo("", 199.0, this.Jogabilidades);
 			fail("Jogo nao deveria aceitar nome vazio");
 		} catch (Exception exp) {
 			assertEquals("excecao errada lançada", "Nome do jogo nao pode ser vazio ou null", exp.getMessage());
 		}
 		
 		try {
-			jogo = new Jogo(null, 50);
+			jogo = new Jogo(null, 50, this.Jogabilidades);
 			fail("Jogo nao deveria aceitar nome null");
 		} catch (Exception exp) {
 			assertEquals("excecao errada lançada", "Nome do jogo nao pode ser vazio ou null", exp.getMessage());
 		}
 		
 		try {
-			jogo = new Jogo("halo 6", -5);
+			jogo = new Jogo("halo 6", -5, this.Jogabilidades);
 			fail("Jogo nao deveria aceita preco negativo");
 		} catch (Exception exp) {
 			assertEquals("excecao errada lançada","Preco de jogo nao pode ser negativo", exp.getMessage());
