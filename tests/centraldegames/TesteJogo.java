@@ -14,31 +14,32 @@ public class TesteJogo {
 	}
 	
 	@Test
-	public void testJogo() {
+	public void testJogo() throws Exception {
 		//testanto se o construtor criou o objeto de maneira correta;
 		assertEquals("Nome do jogo esta errado","Halo 5", this.jogo.getNome());
 		assertEquals("Preco do jogo esta errado", 199.0,this.jogo.getPreco(),0);
 		
-		//testanto excecoes
-		Jogo jogo2; 
+		//testando caso limite
+		jogo = new Jogo("Minecraft", 0);
+		assertEquals("Preco de Minecraft deveria ser 0", 0, this.jogo.getPreco(), 0);
+		
+		//testanto excecoes 
 		try {
-			jogo2 = new Jogo("", 199.0);
+			jogo = new Jogo("", 199.0);
 			fail("Jogo nao deveria aceitar nome vazio");
 		} catch (Exception exp) {
 			assertEquals("excecao errada lançada", "Nome do jogo nao pode ser vazio ou null", exp.getMessage());
 		}
 		
-		Jogo jogo3;
 		try {
-			jogo3 = new Jogo(null, 199.0);
+			jogo = new Jogo(null, 50);
 			fail("Jogo nao deveria aceitar nome null");
 		} catch (Exception exp) {
 			assertEquals("excecao errada lançada", "Nome do jogo nao pode ser vazio ou null", exp.getMessage());
 		}
 		
-		Jogo jogo4;
 		try {
-			jogo4 = new Jogo("halo 5", -5);
+			jogo = new Jogo("halo 6", -5);
 			fail("Jogo nao deveria aceita preco negativo");
 		} catch (Exception exp) {
 			assertEquals("excecao errada lançada","Preco de jogo nao pode ser negativo", exp.getMessage());
