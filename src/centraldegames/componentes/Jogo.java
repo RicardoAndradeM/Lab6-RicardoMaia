@@ -1,4 +1,4 @@
-package centraldegames;
+package centraldegames.componentes;
 
 /**<p>Classe que presenta um jogo</p>
  * <p>&copy; Copyright - Todos os direitos reservados</p>
