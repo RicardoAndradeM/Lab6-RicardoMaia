@@ -8,12 +8,25 @@ import centraldegames.exceptions.DinheiroInvalidoException;
 import centraldegames.exceptions.NomeInvalidoException;
 import centraldegames.exceptions.SaldoInsuficienteExeception;
 
+/** <p>Classe que representa usuario Noob</p>
+ * @author Ricardo Andrade
+ * @since 18/08/16
+ * @version v0.1
+ * @link https://github.com/RicardoAndradeM/Lab6-RicardoMaia.git
+ */
 public class Noob extends Usuario {
 
+	/**
+	 * @param nome nome real do usuario
+	 * @param id nome de usuario(identificador)
+	 * @throws NomeInvalidoException caso nome passado seja invalido
+	 * @author Ricardo Andrade
+	 * @since 18/08/16
+	 */
 	public Noob(String nome, String id) throws NomeInvalidoException {
 		super(nome, id);
 	}
-
+	
 	@Override
 	public boolean compraJogo(Jogo jogo) throws DinheiroInvalidoException, SaldoInsuficienteExeception {
 		double precoComDesconto = jogo.getPreco() - (20/100.0) * jogo.getPreco();

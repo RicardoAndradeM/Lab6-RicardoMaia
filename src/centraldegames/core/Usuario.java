@@ -11,11 +11,11 @@ import centraldegames.exceptions.ScoreInvalidoException;
  * @author Ricardo Andrade
  * @since 18/08/16
  * @version v0.2
- * @link https://github.com/RicardoAndradeM/Lab6-Ricardo
+ * @link https://github.com/RicardoAndradeM/Lab6-RicardoMaia.git
  */
 public abstract class Usuario {
 	private String nomeReal;
-	private String login; // significa identity/identidade
+	private String login;
 	private HashSet<Jogo> meusJogos;
 	private double saldo = 0;
 	private int x2p;
@@ -24,6 +24,7 @@ public abstract class Usuario {
 	 * @param nome nome real do usuario
 	 * @param id nome de usuario(identificador)
 	 * @throws NomeInvalidoException caso nome passado seja invalido
+	 * @author Ricardo Andrade
 	 * @since 18/08/16
 	 */
 	public Usuario(String nome, String login) throws NomeInvalidoException {
@@ -49,6 +50,7 @@ public abstract class Usuario {
 	/** <p>Çadiciona dinheiro a conta do usuario</p>
 	 * @param dinheiro dinheiro a ser adicionado no saldo
 	 * @throws DinheiroInvalidoException 
+	 * @author Ricardo Andrade
 	 * @since 18/08/16
 	 */
 	public void adicionarDinheiro(double dinheiro) throws DinheiroInvalidoException {
@@ -64,6 +66,7 @@ public abstract class Usuario {
 	 * @return se a oprecao foi bem sucedida
 	 * @throws DinheiroInvalidoException caso valor do dinheiro seja invalido
 	 * @throws SaldoInsuficienteExeception caso nao tenha saldo suficiente
+	 * @author Ricardo Andrade
 	 * @since 18/08/16
 	 */
 	public boolean gastarDinheiro(double dinheiro) throws DinheiroInvalidoException, SaldoInsuficienteExeception {
@@ -81,6 +84,14 @@ public abstract class Usuario {
 		this.meusJogos.add(jogo);
 	}
 	
+	/**<p>chama o metodo RegistraJogada do jogo e atualisa aquantidade de x2p</p>
+	 * @param nomeDoJogo nome do jogo jogado
+	 * @param score potuacao atingida
+	 * @param zerou ser zerou o jogo
+	 * @throws ScoreInvalidoException caso pontuacao seja negativa
+	 * @author Ricardo andrade
+	 * @since 23/08/16
+	 */
 	public void registraJogada(String nomeDoJogo, int score, boolean zerou) throws ScoreInvalidoException{
 		for (Jogo jogo : meusJogos) {
 			if(jogo.getNome().equals(nomeDoJogo)){
@@ -89,6 +100,7 @@ public abstract class Usuario {
 		}
 	}
 	
+	// metodo para registrar a compra de um jogo e atualizar o x2p	
 	public abstract boolean compraJogo(Jogo jogo) throws DinheiroInvalidoException, SaldoInsuficienteExeception;
 	
 	/*gets e sets*/

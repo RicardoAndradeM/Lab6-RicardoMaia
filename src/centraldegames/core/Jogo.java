@@ -10,7 +10,7 @@ import centraldegames.exceptions.ScoreInvalidoException;
  * @author Ricardo de Andrade Maia - 115211310
  * @since 11/08/16
  * @version v0.2
- * @link https://github.com/RicardoAndradeM/Lab6-Ricardo
+ * @link https://github.com/RicardoAndradeM/Lab6-RicardoMaia.git
  */
 public class Jogo {
 	private String nome;
@@ -70,12 +70,20 @@ public class Jogo {
 		return 0;
 	}
 	
+	/**
+	 * @param preco preco do jogo
+	 * @throws Exception caso preco seja invalido
+	 */
 	private void testaPreco(double preco) throws Exception{
 		if (preco < 0) {
 			throw new Exception("Preco de jogo nao pode ser negativo");
 		}
 	}
 	
+	/**
+	 * @param nome nome do jogo
+	 * @throws Exception caso o nome seja invalido
+	 */
 	private void testaNome(String nome) throws Exception{
 		if(nome == null || nome.equals("")){
 			throw new Exception("Nome do jogo nao pode ser vazio ou null");

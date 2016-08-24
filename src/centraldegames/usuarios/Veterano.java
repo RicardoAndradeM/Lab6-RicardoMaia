@@ -8,8 +8,21 @@ import centraldegames.exceptions.DinheiroInvalidoException;
 import centraldegames.exceptions.NomeInvalidoException;
 import centraldegames.exceptions.SaldoInsuficienteExeception;
 
+/** <p>Classe que representa usuario Veterano</p>
+ * @author Ricardo Andrade
+ * @since 18/08/16
+ * @version v0.1
+ * @link https://github.com/RicardoAndradeM/Lab6-RicardoMaia.git
+ */
 public class Veterano extends Usuario {
 	
+	/**
+	 * @param nome nome real do usuario
+	 * @param id nome de usuario(identificador)
+	 * @throws NomeInvalidoException caso nome passado seja invalido
+	 * @author Ricardo Andrade
+	 * @since 18/08/16
+	 */
 	public Veterano(String nome, String login) throws NomeInvalidoException {
 		super(nome, login);
 	}
