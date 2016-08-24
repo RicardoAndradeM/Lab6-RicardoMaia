@@ -1,4 +1,4 @@
-package centraldegames.componentes;
+package centraldegames.core;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,8 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import centraldegames.componentes.Jogo;
+import centraldegames.componentes.EstiloJogabilidade;
+import centraldegames.core.Jogo;
 
 public class TesteJogo {
 	private Jogo jogo;
@@ -30,11 +31,6 @@ public class TesteJogo {
 		assertEquals("Nome do jogo esta errado","Halo 5", this.jogo.getNome());
 		assertEquals("Preco do jogo esta errado", 199.0,this.jogo.getPreco(),0);
 		assertTrue(this.Jogabilidades.equals(this.jogo.getJogabilidades()));
-		
-		//testando caso limite
-		Jogo jogo2 = new Jogo("Minecraft", 0, EstiloJogabilidade.OFFLINE);
-		assertEquals("Preco de Minecraft deveria ser 0", 0, jogo2.getPreco(), 0);
-		assertTrue(jogo2.getJogabilidades().contains(EstiloJogabilidade.OFFLINE) && jogo2.getJogabilidades().size() == 1);
 		
 		//testanto excecoes 
 		try {

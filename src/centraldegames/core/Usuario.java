@@ -2,20 +2,23 @@ package centraldegames.core;
 
 import java.util.HashSet;
 
-import centraldegames.componentes.Jogo;
+import centraldegames.exceptions.DinheiroInvalidoException;
 import centraldegames.exceptions.NomeInvalidoException;
+import centraldegames.exceptions.SaldoInsuficienteExeception;
+import centraldegames.exceptions.ScoreInvalidoException;
 
 /** <p>Classe que representa usuario</p>
  * @author Ricardo Andrade
  * @since 18/08/16
- * @version v0.1
+ * @version v0.2
  * @link https://github.com/RicardoAndradeM/Lab6-Ricardo
  */
 public abstract class Usuario {
 	private String nomeReal;
-	private String id; // significa identity/identidade
+	private String login; // significa identity/identidade
 	private HashSet<Jogo> meusJogos;
 	private double saldo = 0;
+	private int x2p;
 	
 	/**
 	 * @param nome nome real do usuario
@@ -23,30 +26,40 @@ public abstract class Usuario {
 	 * @throws NomeInvalidoException caso nome passado seja invalido
 	 * @since 18/08/16
 	 */
-	public Usuario(String nome, String id) throws NomeInvalidoException {
+	public Usuario(String nome, String login) throws NomeInvalidoException {
 		this.setNomeReal(nome);
-		this.setId(id);
+		this.setLogin(login);
+		this.meusJogos = new HashSet<Jogo>();
 	}
 
 	/** <p>Çadiciona dinheiro a conta do usuario</p>
 	 * @param dinheiro dinheiro a ser adicionado no saldo
+	 * @throws DinheiroInvalidoException 
 	 * @since 18/08/16
 	 */
-	public void adicionarDinheiro(double dinheiro) {
-		this.saldo += dinheiro;
+	public void adicionarDinheiro(double dinheiro) throws DinheiroInvalidoException {
+		if (dinheiro < 0) {
+			throw new DinheiroInvalidoException("Dinheiro nao pode ser negativo");
+		} else {
+			this.saldo += dinheiro;
+		}
 	}
 	
 	/** <p>Desconta dinheiro do usuario, geralmente quando ele compra um jogo</p>
 	 * @param dinheiro dinheiro a ser descontado
 	 * @return se a oprecao foi bem sucedida
+	 * @throws DinheiroInvalidoException caso valor do dinheiro seja invalido
+	 * @throws SaldoInsuficienteExeception caso nao tenha saldo suficiente
 	 * @since 18/08/16
 	 */
-	public boolean gastarDinheiro(double dinheiro) {
-		if(dinheiro <= this.saldo){
+	public boolean gastarDinheiro(double dinheiro) throws DinheiroInvalidoException, SaldoInsuficienteExeception {
+		if(dinheiro < 0){
+			throw new DinheiroInvalidoException("Dinheiro nao pode ser negativo");
+		}else if(dinheiro > this.saldo){
+			throw new SaldoInsuficienteExeception("Saldo insuficiente");
+		} else {
 			this.saldo -= dinheiro;
 			return true;
-		} else {
-			// adicionar execao aqui
 		}
 	}
 	
@@ -54,7 +67,15 @@ public abstract class Usuario {
 		this.meusJogos.add(jogo);
 	}
 	
-	public abstract boolean compraJogo(Jogo jogo);
+	public void registraJogada(String nomeDoJogo, int score, boolean zerou) throws ScoreInvalidoException{
+		for (Jogo jogo : meusJogos) {
+			if(jogo.getNome().equals(nomeDoJogo)){
+				x2p += jogo.registraJogada(score, zerou);
+			}
+		}
+	}
+	
+	public abstract boolean compraJogo(Jogo jogo) throws DinheiroInvalidoException, SaldoInsuficienteExeception;
 	
 	/*gets e sets*/
 
@@ -67,19 +88,27 @@ public abstract class Usuario {
 	 * @throws NomeInvalidoException caso o nome seja invalido
 	 */
 	public void setNomeReal(String nomeReal) throws NomeInvalidoException {
-		if (!(nomeReal == null || nomeReal == "")) {
+		if (!(nomeReal == null || nomeReal.equals(""))) {
 			this.nomeReal = nomeReal;
 		} else {
 			throw new NomeInvalidoException("Nome do jogador nao poder ser vazio ou null");
 		}
 	}
 
-	public String getId() {
-		return this.id;
+	public String getLogin() {
+		return this.login;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	/**
+	 * @param id novo login a ser usado pelo usuario
+	 * @throws NomeInvalidoException caso o nome seja invalido
+	 */
+	public void setLogin(String login) throws NomeInvalidoException {
+		if (!(login == null || login.equals(""))) {
+			this.login = login;
+		} else {
+			throw new NomeInvalidoException("login do jogador nao poder ser vazio ou null");
+		}
 	}
 
 	public HashSet<Jogo> getMeusJogos() {
@@ -91,5 +120,13 @@ public abstract class Usuario {
 	}
 	public double getSaldo() {
 		return this.saldo;
+	}
+
+	public int getX2p() {
+		return x2p;
+	}
+
+	public void setX2p(int x2p) {
+		this.x2p = x2p;
 	}
 }

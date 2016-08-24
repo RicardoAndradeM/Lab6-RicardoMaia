@@ -1,23 +1,39 @@
 package centraldegames.usuarios;
 
-import centraldegames.componentes.Jogo;
+import java.util.HashSet;
+
+import centraldegames.core.Jogo;
 import centraldegames.core.Usuario;
+import centraldegames.exceptions.DinheiroInvalidoException;
 import centraldegames.exceptions.NomeInvalidoException;
+import centraldegames.exceptions.SaldoInsuficienteExeception;
 
 public class Noob extends Usuario {
 
 	public Noob(String nome, String id) throws NomeInvalidoException {
-		super(nome, id);	}
+		super(nome, id);
+	}
 
 	@Override
-	public boolean compraJogo(Jogo jogo) {
-		double precoComDesconto = jogo.getPreco() - (20/100.0)*jogo.getPreco();
-		if(precoComDesconto <= this.getSaldo()){
-			this.gastarDinheiro(precoComDesconto);
-			this.adicionaJogo(jogo);
-			return true;
-		} else {
-			//exeption aqui
-		}
+	public boolean compraJogo(Jogo jogo) throws DinheiroInvalidoException, SaldoInsuficienteExeception {
+		double precoComDesconto = jogo.getPreco() - (20/100.0) * jogo.getPreco();
+		this.gastarDinheiro(precoComDesconto);
+		this.adicionaJogo(jogo);
+		this.setX2p(this.getX2p() + ((int) jogo.getPreco() * 10));
+		return true;
 	}
+	
+	@Override
+	public String toString() {
+		String saida = String.format("\n%s\n%s - jogador Noob\nLista de Jogos:", this.getLogin(),this.getNomeReal());
+		HashSet<Jogo> jogos = this.getMeusJogos();
+		double precoTotal = 0;
+		for (Jogo jogo : jogos) {
+			saida += "\n+ " + jogo.toString();
+			precoTotal += jogo.getPreco();
+		}
+		saida += String.format("\n\n Total de preco dos jogos: R$ %.2f", precoTotal);
+		return saida;
+	}
+
 }

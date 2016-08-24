@@ -1,6 +1,9 @@
-package centraldegames.componentes;
+package centraldegames.core;
 
 import java.util.HashSet;
+
+import centraldegames.componentes.EstiloJogabilidade;
+import centraldegames.exceptions.ScoreInvalidoException;
 
 /**<p>Classe que presenta um jogo</p>
  * <p>&copy; Copyright - Todos os direitos reservados</p>
@@ -47,10 +50,11 @@ public class Jogo {
 	 * @param score potunacao do jogo
 	 * @param isCompletouJogo se o usuario zerou/completou o jogo
 	 * @author Ricardo Andrade
+	 * @throws ScoreInvalidoException se o score for invalido
 	 * @throws Exception caso a pontuacao seja invalida
 	 * @since 11/08/16
 	 */
-	public void registraJogada(int score, boolean isCompletouJogo) throws Exception {
+	public int registraJogada(int score, boolean isCompletouJogo) throws ScoreInvalidoException {
 		this.testaScore(score);
 		quantVezesJogadas++;
 		if (isCompletouJogo) {
@@ -59,23 +63,56 @@ public class Jogo {
 		if (score > maxScore) {
 			maxScore = score;
 		}
+		return 0;
 	}
 
 	/**
 	 * @param score pontuacao
 	 * @throws Exception caso pontuacao seja negativa
 	 * @author Ricardo Andrade
+	 * @throws ScoreInvalidoException se o valor for negativo
 	 * @since 11/08/16
 	 */
-	private void testaScore(int score) throws Exception {
+	private void testaScore(int score) throws ScoreInvalidoException {
 		if(score < 0){
-			throw new Exception("pontuacao não pode ser negativa");
+			throw new ScoreInvalidoException("pontuacao não pode ser negativa");
 		}
 		
 	}
-
-	/*gets e sets*/
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((jogabilidades == null) ? 0 : jogabilidades.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Jogo))
+			return false;
+		Jogo other = (Jogo) obj;
+		if (jogabilidades == null) {
+			if (other.jogabilidades != null)
+				return false;
+		} else if (!jogabilidades.equals(other.jogabilidades))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
+	}
+	
+	/*gets e sets*/
+
 	public String getNome() {
 		return nome;
 	}
