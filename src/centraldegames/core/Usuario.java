@@ -27,9 +27,23 @@ public abstract class Usuario {
 	 * @since 18/08/16
 	 */
 	public Usuario(String nome, String login) throws NomeInvalidoException {
-		this.setNomeReal(nome);
-		this.setLogin(login);
+		this.testaNomeReal(nome);
+		this.nomeReal = nome;
+		this.testaLogin(login);
+		this.login = login;
 		this.meusJogos = new HashSet<Jogo>();
+	}
+	
+	private void testaNomeReal(String nome) throws NomeInvalidoException{
+		if (nome == null || nome.equals("")) {
+			throw new NomeInvalidoException("Nome do jogador nao poder ser vazio ou null");
+		}
+	}
+	
+	private void testaLogin(String nome) throws NomeInvalidoException {
+		if (nome == null || nome.equals("")) {
+			throw new NomeInvalidoException("login do jogador nao poder ser vazio ou null");
+		}
 	}
 
 	/** <p>Çadiciona dinheiro a conta do usuario</p>

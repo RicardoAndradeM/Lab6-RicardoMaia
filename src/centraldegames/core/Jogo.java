@@ -29,8 +29,10 @@ public class Jogo {
 	 * @throws caso nome ou preco seja invalido
 	 */
 	public Jogo(String nome, double preco, HashSet<EstiloJogabilidade> jogabilidades) throws Exception {
-		this.setNome(nome);
-		this.setPreco(preco);
+		this.testaNome(nome);
+		this.nome = nome;
+		this.testaPreco(preco);
+		this.preco =preco;
 		this.jogabilidades = jogabilidades;
 	}
 	
@@ -42,8 +44,10 @@ public class Jogo {
 	 * @throws caso nome ou preco seja invalido
 	 */
 	public Jogo(String nome, double preco) throws Exception {
-		this.setNome(nome);
-		this.setPreco(preco);
+		this.testaNome(nome);
+		this.nome = nome;
+		this.testaPreco(preco);
+		this.preco =preco;
 	}
 	
 	/**<p>Registra uma partida, atualisando o Recorde do jogo e demais estatisticas</p>
@@ -64,6 +68,18 @@ public class Jogo {
 			maxScore = score;
 		}
 		return 0;
+	}
+	
+	private void testaPreco(double preco) throws Exception{
+		if (preco < 0) {
+			throw new Exception("Preco de jogo nao pode ser negativo");
+		}
+	}
+	
+	private void testaNome(String nome) throws Exception{
+		if(nome == null || nome.equals("")){
+			throw new Exception("Nome do jogo nao pode ser vazio ou null");
+		}
 	}
 
 	/**

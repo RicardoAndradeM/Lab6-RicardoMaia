@@ -110,7 +110,6 @@ public class TesteNoob {
 		
 		this.jogador.adicionarDinheiro(300);
 		this.jogador.compraJogo(jogo);
-		System.out.println(jogador.getSaldo());
 		
 		try {
 			this.jogador.compraJogo(jogo2);
